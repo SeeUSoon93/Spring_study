@@ -1,23 +1,30 @@
 package org.zerock.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.SampleDTOList;
 import org.zerock.domain.TodoDTO;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 import lombok.extern.log4j.Log4j;
 
@@ -100,5 +107,66 @@ public class SampleController {
 		log.info("todo:"+todo);
 		return "ex03";
 	}
+	
+	// @ModelAttribute 사용 - Model은 파라미터로 전달된 데이터는 존재하지 않지만 화면에서 필요한 데이터를 전달하기 위해 사용
+	// 강제로 전달받은 파라미터를 Model에 담아 전달
+	// 타입에 관계없이 무조건 전달되므로, 파라미터로 전달된 데이터를 다시 화면에서 사용할 때 유용 
+	@GetMapping("/ex04")
+	public String ex04(SampleDTO dto, @ModelAttribute("page") int page) { // value를 지정해줘야 함
+		
+		log.info("dto: "+ dto);
+		log.info("page: "+ page);
+		
+		return "/sample/ex04";	
+	}
+	
+	@GetMapping("/ex05")
+	public void ex05() {
+		log.info("/ex05.......");
+	}
+	
+	@GetMapping("/ex06")
+	public @ResponseBody SampleDTO ex06() {
+		log.info("/ex06.......");
+		SampleDTO dto = new SampleDTO();
+		dto.setAge(31);
+		dto.setName("김군순");
+		
+		return dto;
+	}
+	
+	// ResponseEntity 타입
+	// HttpServletRequest, HttpServletResponse를 직접 행동하지 않아도 http 프로토콜의 헤더를 다루기 위해 사용
+	@GetMapping("/ex07")
+	public ResponseEntity<String> ex07(){
+		log.info("ex/07................");
+		
+		String msg = "{\"name\":\"김군순\"}";
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=UTF-8");
+		
+		return new ResponseEntity<>(msg, headers, HttpStatus.OK);
+	}
+	
+	// 파일 업로드 처리
+	// 1.파일 업로드 화면이동
+	@GetMapping("/exUpload")
+	public void exUpload() {
+		log.info("/exUpload............");
+	}
+	// 2. 파일 업로드 
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		
+		files.forEach(file -> {
+			log.info("--------------------------------------");
+			log.info("name : " + file.getOriginalFilename());
+			log.info("size : " + file.getSize());
+		});		
+	}
+	
+	
+	
 
 }

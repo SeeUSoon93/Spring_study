@@ -81,9 +81,9 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-<!-- 			<scope>runtime</scope>
- -->		</dependency>
-		
+			<!-- <scope>runtime</scope> -->
+		</dependency>
+
 		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -185,6 +185,15 @@
 			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 			<version>1.16</version>
 		</dependency>
+	
+		<!-- 파일 업로드 -->
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.5</version>
+		</dependency>
+
 
 
 	</dependencies>

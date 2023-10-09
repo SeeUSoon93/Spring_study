@@ -23,6 +23,25 @@
 	
 	<context:component-scan base-package="org.zerock.controller" />
 	
-	
-	
+	<!-- 파일 업로드 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="utf-8"></beans:property>
+		<!-- 1024 * 1024 * 10 bytes 10mb -->
+		<beans:property name="maxUploadSize" value="104857560"></beans:property>
+		<!-- 1024 * 1024 * 2 bytes 2mb -->
+		<beans:property name="maxUploadSizePerFile" value="2097152"></beans:property>
+		<beans:property name="uploadTempDir" value="file:/C:/upload/tmp"></beans:property>
+		<beans:property name="maxInMemorySize" value="10485756"></beans:property>	
+	</beans:bean>
+		
+	<!-- 예외처리 - exception 패키지를 인식하지 않기 때문에 component-scan 이용-->
+	<context:component-scan base-package="org.zerock.controller"/>
+	<context:component-scan base-package="org.zerock.exception"/>		
+		
+		
+		
+		
+		
+		
+		
 </beans:beans>
